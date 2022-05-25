@@ -5,7 +5,7 @@ import Wrapper from './components/contentWrapper/Main';
 import Login from './components/Login/LoginForm';
 // import Register from './components/register/Main';
 import Auth from './auth/Auth';
-import Register from './components/Register/RegisterForm';
+import Register from './components/Register/Main';
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ user, redirectPath = '/login', children }) => {
   if (!Auth.isAuthenticated()) {

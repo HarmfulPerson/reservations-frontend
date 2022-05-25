@@ -13,6 +13,7 @@ import Container from '@mui/material/Container';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ClassNames } from '@emotion/react';
+import PropTypes from 'prop-types';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import languages from '../../consts/language';
 
@@ -40,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RegisterForm = () => {
-  const x = 'register';
+const RegisterForm = (props) => {
+  const { register, values, errors, handleChange } = props;
   const classes = useStyles();
   return (
     <div className={classes.wrapper}>
@@ -139,7 +140,7 @@ const RegisterForm = () => {
                 variant="contained"
                 className={classes.submit}
                 color="primary"
-                // onClick={login}
+                onClick={register}
               >
                 {languages.pl.registerScreen.registerButton_}
               </Button>
@@ -149,6 +150,13 @@ const RegisterForm = () => {
       </Paper>
     </div>
   );
+};
+
+RegisterForm.propTypes = {
+  register: PropTypes.func.isRequired,
+  values: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default RegisterForm;

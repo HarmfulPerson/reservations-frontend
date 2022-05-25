@@ -1,51 +1,46 @@
 import React from 'react';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
-import Container from '@mui/material/Container';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { ClassNames } from '@emotion/react';
-import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
+import { postRequest } from '../../helpers/requests';
 import languages from '../../consts/language';
-
-const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    width: '100%',
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ededed',
-  },
-  paper: {
-    width: '30%',
-    borderRadius: '10px !important',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  submit: { width: '229px', marginTop: '12px !important' },
-  registerWrapper: {
-    marginTop: '40px',
-  },
-}));
+import RegisterForm from './RegisterForm';
 
 const Register = () => {
-  const x = 'register';
-  const classes = useStyles();
+  const [newUser, setNewUser] = React.useState({
+    email: null,
+    password: null,
+    rePassword: null,
+    firstName: null,
+    lastName: null,
+    phone: null,
+  });
+  const [errors, setErrors] = React.useState({
+    email: false,
+    password: false,
+    rePassword: false,
+    firstName: false,
+    lastName: false,
+    phone: false,
+  });
+
+  const handleChange = (event) => {
+    const { target } = event;
+    const { name, value } = target;
+    setNewUser({
+      ...newUser,
+      [name]: value,
+    });
+  };
+
+  const register = async () => {
+    const result = await postRequest('register', newUser);
+  };
+
   return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.paper}>
-        <p>lol</p>
-      </Paper>
-    </div>
+    <RegisterForm
+      register={register}
+      values={newUser}
+      errors={errors}
+      handleChange={handleChange}
+    />
   );
 };
 
