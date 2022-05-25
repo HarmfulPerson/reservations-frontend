@@ -7,9 +7,9 @@ class UserSessionDataHandler {
 
   static settings = 'settings';
 
-  static settingsKeys = SettingsKeys;
+  // static settingsKeys = SettingsKeys;
 
-  static userKeys = UserKeys;
+  // static userKeys = UserKeys;
 
   static getToken() {
     return localStorage.getItem(this.token);

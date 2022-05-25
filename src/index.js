@@ -1,13 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { ThemeProvider } from '@material-ui/core';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import theme from './consts/theme';
 
+const history = createBrowserHistory({ window });
+console.log(theme);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <HistoryRouter history={history}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </HistoryRouter>
   </React.StrictMode>
 );
 
