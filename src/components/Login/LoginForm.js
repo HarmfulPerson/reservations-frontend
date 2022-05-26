@@ -12,8 +12,10 @@ import { makeStyles } from '@mui/styles';
 import Container from '@mui/material/Container';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import languages from '../../consts/language';
+import Alert from '../common/alert/alert';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -36,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginForm = () => {
-  const x = 1;
+const LoginForm = (props) => {
+  const { login, handleChange, alert, errors, values } = props;
   const classes = useStyles();
-  console.log('login');
+
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.paper}>
@@ -57,8 +59,9 @@ const LoginForm = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                // onChange={handleChange}
-                // value={values.username}
+                onChange={handleChange}
+                value={values.email}
+                error={errors.email}
               />
             </Grid>
             <Grid item xs={12}>
@@ -71,8 +74,9 @@ const LoginForm = () => {
                 name="password"
                 autoComplete="password"
                 autoFocus
-                // onChange={handleChange}
-                // value={values.username}
+                onChange={handleChange}
+                value={values.password}
+                error={errors.password}
               />
             </Grid>
             <Grid xs={12}>
@@ -80,7 +84,7 @@ const LoginForm = () => {
                 variant="contained"
                 className={classes.submit}
                 color="primary"
-                // onClick={login}
+                onClick={login}
               >
                 {languages.pl.loginScreen.button_}
               </Button>
@@ -95,8 +99,17 @@ const LoginForm = () => {
           </Grid>
         </Grid>
       </Paper>
+      <Alert alertObject={alert} />
     </div>
   );
+};
+
+LoginForm.propTypes = {
+  login: PropTypes.func.isRequired,
+  values: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  alert: PropTypes.object.isRequired,
 };
 
 export default LoginForm;

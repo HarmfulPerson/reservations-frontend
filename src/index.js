@@ -7,9 +7,8 @@ import { ThemeProvider } from '@material-ui/core';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import theme from './consts/theme';
+import history from './history';
 
-const history = createBrowserHistory({ window });
-console.log(theme);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

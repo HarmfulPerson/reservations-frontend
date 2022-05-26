@@ -16,6 +16,7 @@ import { ClassNames } from '@emotion/react';
 import PropTypes from 'prop-types';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import languages from '../../consts/language';
+import Alert from '../common/alert/alert';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -39,10 +40,18 @@ const useStyles = makeStyles((theme) => ({
   registerWrapper: {
     padding: '40px 0px !important',
   },
+  link: {
+    textDecoration: 'none',
+    color: 'black',
+    paddingRight: '50px',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 }));
 
 const RegisterForm = (props) => {
-  const { register, values, errors, handleChange } = props;
+  const { register, values, errors, handleChange, alert } = props;
   const classes = useStyles();
   return (
     <div className={classes.wrapper}>
@@ -57,12 +66,13 @@ const RegisterForm = (props) => {
                 margin="normal"
                 required
                 id="email"
+                error={errors.email}
                 label={languages.pl.registerScreen.email_}
                 name="email"
                 autoComplete="email"
                 autoFocus
-                // onChange={handleChange}
-                // value={values.username}
+                onChange={handleChange}
+                value={values.email}
               />
             </Grid>
             <Grid item xs={12}>
@@ -75,8 +85,9 @@ const RegisterForm = (props) => {
                 name="password"
                 autoComplete="password"
                 autoFocus
-                // onChange={handleChange}
-                // value={values.username}
+                onChange={handleChange}
+                value={values.password}
+                error={errors.password}
               />
             </Grid>
             <Grid item xs={12}>
@@ -89,8 +100,9 @@ const RegisterForm = (props) => {
                 name="rePassword"
                 autoComplete="rePassword"
                 autoFocus
-                // onChange={handleChange}
-                // value={values.username}
+                onChange={handleChange}
+                value={values.rePassword}
+                error={errors.rePassword}
               />
             </Grid>
             <Grid item xs={12}>
@@ -103,8 +115,9 @@ const RegisterForm = (props) => {
                 name="firstName"
                 autoComplete="firstName"
                 autoFocus
-                // onChange={handleChange}
-                // value={values.username}
+                onChange={handleChange}
+                value={values.firstName}
+                error={errors.firstName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -117,8 +130,9 @@ const RegisterForm = (props) => {
                 name="lastName"
                 autoComplete="lastName"
                 autoFocus
-                // onChange={handleChange}
-                // value={values.username}
+                onChange={handleChange}
+                value={values.lastName}
+                error={errors.lastName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -131,8 +145,9 @@ const RegisterForm = (props) => {
                 name="phone"
                 autoComplete="phone"
                 autoFocus
-                // onChange={handleChange}
-                // value={values.username}
+                onChange={handleChange}
+                value={values.phone}
+                error={errors.phone}
               />
             </Grid>
             <Grid xs={12}>
@@ -147,7 +162,13 @@ const RegisterForm = (props) => {
             </Grid>
           </Grid>
         </form>
+        <h5 style={{ textAlign: 'right' }}>
+          <Link className={classes.link} to="/login">
+            {languages.pl.registerScreen.backToLoginPageInfo_}
+          </Link>
+        </h5>
       </Paper>
+      <Alert alertObject={alert} />
     </div>
   );
 };
@@ -157,6 +178,7 @@ RegisterForm.propTypes = {
   values: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
+  alert: PropTypes.object.isRequired,
 };
 
 export default RegisterForm;

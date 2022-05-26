@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Wrapper from './components/contentWrapper/Main';
-import Login from './components/Login/LoginForm';
+import Login from './components/Login/Main';
 // import Register from './components/register/Main';
 import Auth from './auth/Auth';
 import Register from './components/Register/Main';
@@ -15,16 +15,20 @@ const ProtectedRoute = ({ user, redirectPath = '/login', children }) => {
   return children;
 };
 
-const Private = (Component) => {
-  const auth = !Auth.isAuthenticated();
-  return !auth ? <Wrapper /> : <Navigate to="/login" />;
+const Private = () => {
+  const auth = Auth.isAuthenticated();
+  return auth ? <Wrapper /> : <Navigate to="/login" />;
 };
 
 const Router = () => (
   <Routes>
-    <Route exact path="/login" element={<Login />} />
+    <Route
+      exact
+      path="/login"
+      element={Auth.isAuthenticated() ? <Wrapper /> : <Login />}
+    />
     <Route exact path="/register" element={<Register />} />
-    <Route path="/" element={<Private Component={Wrapper} />} />
+    <Route path="/" element={<Private />} />
   </Routes>
 );
 

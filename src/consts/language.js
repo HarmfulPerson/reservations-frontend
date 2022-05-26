@@ -19,6 +19,13 @@ const languages = {
       firstName_: 'Imię',
       lastName_: 'Nazwisko',
       phoneNumber_: 'Telefon',
+      backToLoginPageInfo_: 'Wróć do strony logowania.',
+    },
+    dashboard: {
+      loggedAs_: 'Zalogowany jako',
+    },
+    addForm: {
+      header_: 'Dodaj nową rezerwację',
     },
   },
   en: {},
