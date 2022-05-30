@@ -4,4 +4,5 @@ export default {
   login: 'user/login',
   register: 'user/signup',
   user: 'user',
+  confirmReservation: 'reservationToConfirm/confirm',
 };

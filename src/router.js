@@ -6,14 +6,8 @@ import Login from './components/Login/Main';
 // import Register from './components/register/Main';
 import Auth from './auth/Auth';
 import Register from './components/Register/Main';
+import ConfirmReservation from './components/confirmReservation/Main';
 // eslint-disable-next-line react/prop-types
-const ProtectedRoute = ({ user, redirectPath = '/login', children }) => {
-  if (!Auth.isAuthenticated()) {
-    return <Navigate to={redirectPath} replace />;
-  }
-
-  return children;
-};
 
 const Private = () => {
   const auth = Auth.isAuthenticated();
@@ -28,6 +22,11 @@ const Router = () => (
       element={Auth.isAuthenticated() ? <Wrapper /> : <Login />}
     />
     <Route exact path="/register" element={<Register />} />
+    <Route
+      exact
+      path="confirmReservation/:uid"
+      element={<ConfirmReservation />}
+    />
     <Route path="/" element={<Private />} />
   </Routes>
 );

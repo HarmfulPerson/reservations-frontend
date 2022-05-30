@@ -3,9 +3,13 @@ import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import IconButton from '@mui/material/IconButton';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import languages from '../../consts/language';
-import AddReservationForm from '../addReservation/addReservationForm';
+import AddReservationForm from '../addReservation/Main';
+import ReservationsList from '../reservationList/Main';
+import Auth from '../../auth/Auth';
+import history from '../../history';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -26,13 +30,15 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     width: '80%',
-    height: '100%',
+    height: 'calc(100% - 120px)',
+    overflowY: 'hidden',
     margin: '0 auto 40px auto',
   },
   leftSideDashboard: {
     marginRight: '10px',
     width: '50%',
     height: '100%',
+    overflowY: 'auto',
   },
   rightSideDashboard: {
     width: '50%',
@@ -58,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   logoutButtonContainer: {
-    width: '40px',
+    width: '80px',
     height: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -68,6 +74,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Dashboard = () => {
   const classes = useStyles();
+  const [reservations, setReservations] = React.useState([]);
+
+  const logout = () => {
+    const auth = new Auth();
+
+    UserSessionDataHandler.removeToken();
+    UserSessionDataHandler.removeSettings();
+    UserSessionDataHandler.removeUserData();
+    window.location.reload(true);
+    history.push('/login');
+  };
+
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.appBar}>
@@ -85,15 +103,23 @@ const Dashboard = () => {
           </div>
           <div className={classes.logoutButtonContainer}>
             <IconButton>
+              <SettingsOutlinedIcon />
+            </IconButton>
+            <IconButton onClick={() => logout()}>
               <LogoutOutlinedIcon />
             </IconButton>
           </div>
         </div>
       </Paper>
       <div className={classes.listAndAddWrapper}>
-        <Paper className={classes.leftSideDashboard} />
+        <Paper className={classes.leftSideDashboard}>
+          <ReservationsList
+            reservations={reservations}
+            setReservations={setReservations}
+          />
+        </Paper>
         <Paper className={classes.rightSideDashboard}>
-          <AddReservationForm />
+          <AddReservationForm setReservations={setReservations} x={11} />
         </Paper>
       </div>
     </div>

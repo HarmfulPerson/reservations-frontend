@@ -26,6 +26,13 @@ const languages = {
     },
     addForm: {
       header_: 'Dodaj nową rezerwację',
+      pickHour_: 'Wybierz godzinę',
+      summaryHeader_: 'Podsumowanie',
+      summaryInfo_: 'Wybrana data do dodania jako wolny termin',
+      summaryStartsAt_: 'Zaczyna się',
+      summaryEndsAt_: 'Kończy się',
+      resetButton_: 'Resetuj',
+      saveButton_: 'Zapisz',
     },
   },
   en: {},

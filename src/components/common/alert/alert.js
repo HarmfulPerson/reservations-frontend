@@ -4,11 +4,17 @@ import { Alert } from '@mui/material';
 
 const Main = (props) => {
   const { alertObject } = props;
+  const [visibility, setVisibility] = React.useState(true);
+  setTimeout(
+    () => (document.getElementById('alert').style.display = 'none'),
+    5000
+  );
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
-      {alertObject?.status && (
+      {alertObject?.status && visibility && (
         <Alert
+          id="alert"
           style={{ position: 'absolute', right: '20px', bottom: '20px' }}
           severity={alertObject.status}
         >

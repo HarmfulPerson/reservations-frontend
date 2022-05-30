@@ -6,8 +6,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import plLocale from 'date-fns/locale/pl';
 import Grid from '@mui/material/Grid';
-import { SliderValueLabelUnstyled } from '@mui/base';
+import clsx from 'clsx';
+import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
 import languages from '../../consts/language';
+import AlertObject from '../common/alert/alert';
 
 const _ = require('underscore');
 
@@ -27,17 +30,46 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '10px 20px',
+  },
+  buttonSave: {
+    color: 'white !important',
+    backgroundColor: 'green !important',
+  },
+  buttonReset: {
+    color: 'white !important',
+    backgroundColor: 'red !important',
+  },
 }));
 
-const AddReservationForm = () => {
-  const [value, setValue] = React.useState(null);
+const AddReservationForm = (props) => {
+  const { reservationDate, setReservationDate, saveButtonFunction, alert } =
+    props;
+  const [canRenderSummary, setCanRenderSummary] = React.useState(false);
   const hours = _.range(6, 23);
-  React.useEffect(() => {
-    const date1 = new Date(value);
-    console.log(new Date(date1.setHours(0)));
-    console.log();
-  }, [value]);
   const classes = useStyles();
+
+  const handleHourPick = (hour) => {
+    setReservationDate(new Date(new Date(reservationDate).setHours(hour)));
+    setCanRenderSummary(true);
+  };
+
+  const returnInfoString = (date, isEndDate = false) => {
+    const lessonDuration = 1;
+
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${
+      isEndDate ? date.getHours() + lessonDuration : date.getHours()
+    }:00`;
+  };
+
+  const handleReset = () => {
+    setReservationDate(null);
+    setCanRenderSummary(false);
+  };
+
   return (
     <div className={classes.wrapper}>
       <h1>{languages.pl.addForm.header_}</h1>
@@ -48,27 +80,32 @@ const AddReservationForm = () => {
         <DatePicker
           mask
           label="Wybierz dzień"
-          value={value}
+          value={reservationDate}
+          disablePast
           onChange={(newValue) => {
-            setValue(newValue);
+            setReservationDate(newValue);
           }}
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
       <Grid container>
-        {value && (
+        {reservationDate && (
           <>
             <Grid item xs={12}>
-              <h3>Wybierz godzinę</h3>
+              <h3>{languages.pl.addForm.pickHour_}</h3>
             </Grid>
             {hours.map((hour) => (
               <Grid
                 onClick={() => {
-                  value.setHours(hour);
+                  handleHourPick(hour);
                 }}
                 item
                 xs={3}
-                className={`${classes.eachHour}`}
+                className={clsx({
+                  [classes.pickedHour]:
+                    new Date(reservationDate).getHours() === hour,
+                  [classes.eachHour]: true,
+                })}
               >
                 {hour}
               </Grid>
@@ -76,8 +113,45 @@ const AddReservationForm = () => {
           </>
         )}
       </Grid>
+      <Grid container>
+        {canRenderSummary && (
+          <Grid item xs={12}>
+            <h3>{languages.pl.addForm.summaryHeader_}</h3>
+            <p>{languages.pl.addForm.summaryInfo_}:</p>
+            <p>{`${languages.pl.addForm.summaryStartsAt_}: ${returnInfoString(
+              reservationDate
+            )}`}</p>
+            <p>{`${languages.pl.addForm.summaryEndsAt_}: ${returnInfoString(
+              reservationDate,
+              true
+            )}`}</p>
+            <Grid className={classes.buttonContainer} item xs={12}>
+              <Button
+                onClick={() => handleReset()}
+                className={classes.buttonReset}
+              >
+                {languages.pl.addForm.resetButton_}
+              </Button>
+              <Button
+                onClick={() => saveButtonFunction()}
+                className={classes.buttonSave}
+              >
+                {languages.pl.addForm.saveButton_}
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+      </Grid>
+      {/* <AlertObject alertObject={alert} /> */}
     </div>
   );
+};
+
+AddReservationForm.propTypes = {
+  reservationDate: PropTypes.string.isRequired,
+  setReservationDate: PropTypes.func.isRequired,
+  saveButtonFunction: PropTypes.func.isRequired,
+  alert: PropTypes.object.isRequired,
 };
 
 export default AddReservationForm;
