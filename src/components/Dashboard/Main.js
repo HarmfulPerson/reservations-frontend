@@ -8,8 +8,8 @@ import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import languages from '../../consts/language';
 import AddReservationForm from '../addReservation/Main';
 import ReservationsList from '../reservationList/Main';
-import Auth from '../../auth/Auth';
 import history from '../../history';
+import User from '../user/Main';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -75,12 +75,13 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
   const classes = useStyles();
   const [reservations, setReservations] = React.useState([]);
+  const [showUserSettings, setShowUserSettings] = React.useState(false);
+  const userNameSurname = `${UserSessionDataHandler.getUserData().firstName} ${
+    UserSessionDataHandler.getUserData().lastName
+  }`;
 
   const logout = () => {
-    const auth = new Auth();
-
     UserSessionDataHandler.removeToken();
-    UserSessionDataHandler.removeSettings();
     UserSessionDataHandler.removeUserData();
     window.location.reload(true);
     history.push('/login');
@@ -94,15 +95,10 @@ const Dashboard = () => {
             <span className={classes.loggedAs}>
               {languages.pl.dashboard.loggedAs_}:&nbsp;
             </span>
-            <span className={classes.nameSurname}>
-              {` ${UserSessionDataHandler.getUserData().firstName}`}&nbsp;
-            </span>{' '}
-            <span className={classes.nameSurname}>
-              {UserSessionDataHandler.getUserData().lastName}
-            </span>
+            <span className={classes.nameSurname}>{userNameSurname}</span>
           </div>
           <div className={classes.logoutButtonContainer}>
-            <IconButton>
+            <IconButton onClick={() => setShowUserSettings(true)}>
               <SettingsOutlinedIcon />
             </IconButton>
             <IconButton onClick={() => logout()}>
@@ -122,6 +118,10 @@ const Dashboard = () => {
           <AddReservationForm setReservations={setReservations} x={11} />
         </Paper>
       </div>
+      <User
+        showUserSettings={showUserSettings}
+        setShowUserSettings={setShowUserSettings}
+      />
     </div>
   );
 };

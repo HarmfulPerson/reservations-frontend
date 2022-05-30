@@ -25,16 +25,6 @@ axios.interceptors.response.use(
   }
 );
 
-export const apiGetRequest = async (endpoint, paramsObj = {}) => {
-  try {
-    return await axios.get(`${apiBase}/${endpoints[endpoint]}`, {
-      params: paramsObj,
-    });
-  } catch (error) {
-    return error.response;
-  }
-};
-
 export const authGetRequest = async (endpoint, paramsObj = {}) => {
   const token = UserSessionDataHandler.getToken();
   if (!token || token === '') {
@@ -54,52 +44,6 @@ export const authGetRequest = async (endpoint, paramsObj = {}) => {
   } catch (error) {
     return error.response;
   }
-};
-
-export const authGetRequestWithToken = async (
-  endpoint,
-  token,
-  paramsObj = {}
-) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    params: paramsObj,
-  };
-  try {
-    return await axios.get(`${apiBase}/${endpoints[endpoint]}`, config);
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const authGetRequestWithParam = async (endpoint, param = '') => {
-  const token = UserSessionDataHandler.getToken();
-  if (!token || token === '') {
-    const error = new Error();
-    error.status = 401;
-    error.message = 'Musisz sie zalogowac';
-    return error;
-  }
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  try {
-    return await axios.get(
-      `${apiBase}/${endpoints[endpoint]}/${param}`,
-      config
-    );
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const multipleRequest = async (requests) => {
-  const responses = await axios.all(requests);
-  return responses;
 };
 
 export const postRequest = async (endpoint, paramsObj = {}) => {
@@ -143,51 +87,6 @@ export const authPostRequest = async (endpoint, paramsObj = {}) => {
   }
 };
 
-export const authPostRequestWithToken = async (
-  endpoint,
-  token,
-  paramsObj = {}
-) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  try {
-    return await axios.post(
-      `${apiBase}/${endpoints[endpoint]}`,
-      paramsObj,
-      config
-    );
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const authPutRequest = async (endpoint, paramsObj = {}) => {
-  const token = UserSessionDataHandler.getToken();
-  if (!token || token === '') {
-    const error = new Error();
-    error.status = 401;
-    error.message = 'Musisz sie zalogowac';
-    return error;
-  }
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  try {
-    return await axios.put(
-      `${apiBase}/${endpoints[endpoint]}`,
-      paramsObj,
-      config
-    );
-  } catch (error) {
-    return error.response;
-  }
-};
-
 export const authPatchRequest = async (endpoint, paramsObj = {}) => {
   const token = UserSessionDataHandler.getToken();
   if (!token || token === '') {
@@ -207,68 +106,6 @@ export const authPatchRequest = async (endpoint, paramsObj = {}) => {
       paramsObj,
       config
     );
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const authPatchRequestWithParam = async (
-  endpoint,
-  param = '',
-  dataObj = {}
-) => {
-  const token = UserSessionDataHandler.getToken();
-  if (!token || token === '') {
-    const error = new Error();
-    error.status = 401;
-    error.message = 'Musisz sie zalogowac';
-    return error;
-  }
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  try {
-    return await axios.patch(
-      `${apiBase}/${endpoints[endpoint]}/${param}`,
-      dataObj,
-      config
-    );
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const authGetRequestWithParams = async (endpoint, paramsObj = {}) => {
-  const token = UserSessionDataHandler.getToken();
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    params: paramsObj,
-  };
-  try {
-    return await axios.get(`${apiBase}/${endpoints[endpoint]}`, config);
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const authGetFileRequestWithParams = async (
-  endpoint,
-  paramsObj = {}
-) => {
-  const token = UserSessionDataHandler.getToken();
-  const config = {
-    responseType: 'blob',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    params: paramsObj,
-  };
-  try {
-    return await axios.get(`${apiBase}/${endpoints[endpoint]}`, config);
   } catch (error) {
     return error.response;
   }

@@ -42,6 +42,19 @@ const LoginForm = (props) => {
   const { login, handleChange, alert, errors, values } = props;
   const classes = useStyles();
 
+  React.useEffect(() => {
+    const listener = (event) => {
+      console.log(event.code);
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        login();
+      }
+    };
+    document.addEventListener('keydown', listener);
+    return () => {
+      document.removeEventListener('keydown', listener);
+    };
+  });
+
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.paper}>
@@ -74,12 +87,13 @@ const LoginForm = (props) => {
                 name="password"
                 autoComplete="password"
                 autoFocus
+                type="password"
                 onChange={handleChange}
                 value={values.password}
                 error={errors.password}
               />
             </Grid>
-            <Grid xs={12}>
+            <Grid item xs={12}>
               <Button
                 variant="contained"
                 className={classes.submit}
@@ -99,7 +113,6 @@ const LoginForm = (props) => {
           </Grid>
         </Grid>
       </Paper>
-      <Alert alertObject={alert} />
     </div>
   );
 };

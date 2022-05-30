@@ -5,7 +5,7 @@ import { authPostRequest } from '../../helpers/requests';
 import { parseDateToIsoWithOffset } from '../../consts/utils';
 
 const AddReservation = (props) => {
-  const { setReservations, x } = props;
+  const { setReservations } = props;
   const [reservationDate, setReservationDate] = React.useState(null);
   const [alert, setAlert] = React.useState({});
 
@@ -18,7 +18,7 @@ const AddReservation = (props) => {
     };
 
     const result = await authPostRequest('reservationAdd', dateObject);
-    console.log(result);
+
     if (result.status === 201) {
       setAlert({ status: 'success', text: 'Dodano poprawnie' });
       setReservations((currReservations) => [...currReservations, result.data]);
@@ -37,7 +37,6 @@ const AddReservation = (props) => {
 
 AddReservation.propTypes = {
   setReservations: PropTypes.func.isRequired,
-  x: PropTypes.number.isRequired,
 };
 
 export default AddReservation;

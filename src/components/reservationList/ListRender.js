@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import { parseDate } from '../../consts/utils';
+import languages from '../../consts/language';
 
 const useStyles = makeStyles((theme) => ({
   rowConfirmed: {
@@ -51,11 +52,21 @@ const ListRender = (props) => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="right">Start date</TableCell>
-            <TableCell align="right">End date</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">Reserved by</TableCell>
-            <TableCell align="center">Usuń</TableCell>
+            <TableCell align="right">
+              {languages.pl.reservationsList.startDate_}
+            </TableCell>
+            <TableCell align="right">
+              {languages.pl.reservationsList.endDate_}
+            </TableCell>
+            <TableCell align="right">
+              {languages.pl.reservationsList.status_}
+            </TableCell>
+            <TableCell align="right">
+              {languages.pl.reservationsList.reservedBy_}
+            </TableCell>
+            <TableCell align="center">
+              {languages.pl.reservationsList.delete_}
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -64,7 +75,7 @@ const ListRender = (props) => {
             .map((row) => (
               <TableRow
                 className={classes.row}
-                key={row.name}
+                key={row.uid}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell align="right">{parseDate(row.startDate)}</TableCell>
@@ -77,7 +88,7 @@ const ListRender = (props) => {
                   })}
                   align="right"
                 >
-                  {row.status}
+                  {languages.pl.reservationsList[`${row.status}_`]}
                 </TableCell>
                 <TableCell align="right">
                   {row.reservedBy ? row.reservedBy : '-'}
@@ -88,7 +99,7 @@ const ListRender = (props) => {
                     variant="contained"
                     className={classes.buttonDelete}
                   >
-                    Usuń
+                    {languages.pl.reservationsList.delete_}
                   </Button>
                 </TableCell>
               </TableRow>

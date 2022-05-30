@@ -1,5 +1,3 @@
-import moment from 'moment-timezone';
-
 export const parseDateToIsoWithOffset = (date) => {
   const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
 

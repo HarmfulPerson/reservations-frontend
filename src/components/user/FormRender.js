@@ -1,57 +1,63 @@
 import React from 'react';
-import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import { makeStyles } from '@mui/styles';
-import { Link } from 'react-router-dom';
+import Modal from '@mui/material/Modal';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@mui/styles';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 import languages from '../../consts/language';
-import Alert from '../common/alert/alert';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  boxShadow: 24,
+  p: 4,
+  display: 'flex',
+  justifyContent: 'center',
+};
 
 const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    width: '100%',
-    height: '100vh',
+  gridRow: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ededed',
   },
-  paper: {
-    width: '30%',
-    '@media (max-width: 780px)': {
-      width: '100%',
-    },
-    borderRadius: '10px !important',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  submit: { width: '229px', margin: '12px 0px 24px 0px !important' },
-  registerWrapper: {
-    padding: '40px 0px !important',
-  },
-  link: {
-    textDecoration: 'none',
-    color: 'black',
-    paddingRight: '50px',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
+  header_: {
+    textAlign: 'center',
   },
 }));
 
-const RegisterForm = (props) => {
-  const { register, values, errors, handleChange, alert } = props;
+const UserRenderForm = (props) => {
+  const {
+    showUserSettings,
+    closeModal,
+    values,
+    changeSettings,
+    errors,
+    handleChange,
+  } = props;
   const classes = useStyles();
+  React.useEffect(() => {
+    console.log(showUserSettings);
+  }, [showUserSettings]);
+
   return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.paper}>
-        <h1>{languages.pl.registerScreen.header_}</h1>
-        <h3>{languages.pl.registerScreen.headerInfo_}</h3>
+    <Modal
+      open={showUserSettings}
+      onClose={closeModal}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
         <form className={classes.form} noValidate>
           <Grid container>
-            <Grid item xs={12}>
+            <Grid className={classes.header_} item xs={12}>
+              <h1>{languages.pl.userForm.header_}</h1>
+            </Grid>
+            <Grid className={classes.gridRow} item xs={12}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -66,13 +72,13 @@ const RegisterForm = (props) => {
                 value={values.email}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid className={classes.gridRow} item xs={12}>
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
-                id="password"
                 type="password"
+                id="password"
                 label={languages.pl.registerScreen.password_}
                 name="password"
                 autoComplete="password"
@@ -82,15 +88,15 @@ const RegisterForm = (props) => {
                 error={errors.password}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid className={classes.gridRow} item xs={12}>
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 id="rePassword"
-                type="password"
                 label={languages.pl.registerScreen.rePassword_}
                 name="rePassword"
+                type="password"
                 autoComplete="rePassword"
                 autoFocus
                 onChange={handleChange}
@@ -98,7 +104,7 @@ const RegisterForm = (props) => {
                 error={errors.rePassword}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid className={classes.gridRow} item xs={12}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -113,7 +119,7 @@ const RegisterForm = (props) => {
                 error={errors.firstName}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid className={classes.gridRow} item xs={12}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -128,7 +134,7 @@ const RegisterForm = (props) => {
                 error={errors.lastName}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid className={classes.gridRow} item xs={12}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -143,34 +149,30 @@ const RegisterForm = (props) => {
                 error={errors.phone}
               />
             </Grid>
-            <Grid xs={12}>
+            <Grid className={classes.gridRow} item xs={12}>
               <Button
                 variant="contained"
                 className={classes.submit}
                 color="primary"
-                onClick={register}
+                onClick={changeSettings}
               >
-                {languages.pl.registerScreen.registerButton_}
+                {languages.pl.addForm.saveButton_}
               </Button>
             </Grid>
           </Grid>
         </form>
-        <h5 style={{ textAlign: 'right' }}>
-          <Link className={classes.link} to="/login">
-            {languages.pl.registerScreen.backToLoginPageInfo_}
-          </Link>
-        </h5>
-      </Paper>
-    </div>
+      </Box>
+    </Modal>
   );
 };
 
-RegisterForm.propTypes = {
-  register: PropTypes.func.isRequired,
+UserRenderForm.propTypes = {
+  showUserSettings: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
+  changeSettings: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
-  alert: PropTypes.object.isRequired,
 };
 
-export default RegisterForm;
+export default UserRenderForm;

@@ -78,7 +78,6 @@ const AddReservationForm = (props) => {
         adapterLocale={plLocale}
       >
         <DatePicker
-          mask
           label="Wybierz dzień"
           value={reservationDate}
           disablePast
@@ -148,7 +147,7 @@ const AddReservationForm = (props) => {
 };
 
 AddReservationForm.propTypes = {
-  reservationDate: PropTypes.string.isRequired,
+  reservationDate: PropTypes.instanceOf(Date),
   setReservationDate: PropTypes.func.isRequired,
   saveButtonFunction: PropTypes.func.isRequired,
   alert: PropTypes.object.isRequired,

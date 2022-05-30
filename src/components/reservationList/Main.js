@@ -23,10 +23,6 @@ const Reservations = (props) => {
   };
 
   React.useEffect(() => {
-    console.log(reservations);
-  }, [reservations]);
-
-  React.useEffect(() => {
     getOwnReservations();
   }, []);
 

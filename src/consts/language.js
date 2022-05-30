@@ -34,6 +34,19 @@ const languages = {
       resetButton_: 'Resetuj',
       saveButton_: 'Zapisz',
     },
+    userForm: {
+      header_: 'Edytuj użytkownika',
+    },
+    reservationsList: {
+      startDate_: 'Data początkowa',
+      endDate_: 'Data końcowa',
+      status_: 'Status rezerwacji',
+      reservedBy_: 'Zarezerwowane przez',
+      delete_: 'Usuń',
+      free_: 'Wolny',
+      toConfirm_: 'Oczekuje na potwierdzenie',
+      confirmed_: 'Potwierdzony',
+    },
   },
   en: {},
 };
